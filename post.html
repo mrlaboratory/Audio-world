@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+
+
+    <script>
+        $(document).ready(function(){
+  new MediaElementPlayer(document.querySelector("audio"),{"alwaysShowControls": "true"}).setSrc(urlHostname+"/stream/"+fileEnc+".mp3?key="+urlKeys);
+  related.forEach((a)=>{
+    let formatRelated=`<li>
+        <a href="`+urlHostname+`/post/`+a.id+`" class="d-flex align-items-center">
+        <i class="fas fa-music"></i>
+        <span class="flex-fill">`+a.title+`</span>
+        </a>
+    </li>`;
+    document.getElementById("relatedPost").innerHTML+=formatRelated;
+  });
+  document.getElementById("btnDownload").addEventListener("click",()=>{
+    window.location.href=urlHostname+"/download/"+fileEnc+".mp3?key="+urlKeys;
+  });
+
+  //--- fungsi arsae utama --
+  if(dataArsae.status){
+    var ars = dataArsae["url-direct"];
+    if(document.referrer){
+      dataArsae["allow-referer"].forEach(a=>{
+        if(document.referrer.indexOf(a)>=0){
+          window.location.href = ars +dataArsae["path"]+ encodeURIComponent(window.location.href) + '&arsae_ref='+ encodeURIComponent(document.referrer);
+        };
+      });
+    };
+    //--- fungsi arsae lanjutan --
+    try{
+      if(ars){
+        if(window.location.origin==ars){
+          document.querySelectorAll("a").forEach(a=>{
+              let aaa=a.getAttribute("href");
+              if(aaa){
+                  if(aaa.indexOf(ars)==-1){
+                      let bbb=encodeURIComponent(aaa);
+                      let ccc=ars +dataArsae["path"]+bbb + '&arsae_ref='+ encodeURIComponent(document.referrer);
+                      a.setAttribute("href",ccc);
+                  };
+              };
+          });
+          document.querySelectorAll("form").forEach(a=>{
+            let dataHost=a.getAttribute("action");
+            let aaa=document.createElement("div");
+            aaa.id=a.getAttribute("id");
+            aaa.innerHTML=a.innerHTML;
+            a.outerHTML=aaa.outerHTML;
+            let bbb =document.querySelector("input");
+            if(bbb){
+              bbb.addEventListener("keydown",(e)=>{
+                if (e.code === "Enter") {
+                    let ccc=bbb.value.replace(/\s/g,"+");
+                    let ddd=encodeURIComponent(dataHost+"?q="+ccc);
+                    window.location.href=ars+dataArsae["path"]+ddd+ '&arsae_ref='+ encodeURIComponent(document.referrer);
+                };
+              });
+            };
+          });
+        };
+      };
+    }catch(e){};
+  };
+});
+    </script>
+    
+</body>
+</html>

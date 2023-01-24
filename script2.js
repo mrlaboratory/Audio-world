@@ -4,18 +4,26 @@ const searchUrl = 'https://www.googleapis.com/youtube/v3/search';
 let currentVideoId;
 
 $(document).ready(function() {
-  // Search for videos when the search button is clicked
-  $('#search-button').on('click', function() {
-    event.preventDefault()
-    search($('#search-query').val());
+    // Check if the URL contains the search query
+    const searchParams = new URLSearchParams(window.location.search);
+    const searchQuery = searchParams.get('q');
+    if (searchQuery) {
+      search(searchQuery);
+    }
+  
+    // Search for videos when the search button is clicked
+    $('#search-button').on('click', function() {
+      event.preventDefault()
+      search($('#search-query').val());
+    });
+  
+    // Play the selected video's audio
+    $('#video-container').on('click', '.video', function() {
+      const videoId = $(this).data('video-id');
+      playAudio(videoId);
+    });
   });
-
-  // Play the selected video's audio
-  $('#video-container').on('click', '.video', function() {
-    const videoId = $(this).data('video-id');
-    playAudio(videoId);
-  });
-});
+  
 
 
 function search(query) {

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <div id="player"></div>
+
+
+
+    <script src="https://www.youtube.com/iframe_api"></script>
+
+    
+    <script>
+        function onPlayerReady(event) {
+    event.target.mute(); // mute the video when it starts playing
+    event.target.setLoop(true); //set the video to loop when it finishes playing
+}
+
+        var player;
+function onYouTubeIframeAPIReady() {
+    player = new YT.Player('player', {
+        videoId: '2gYtl378XPc', // the video ID of the YouTube video you want to play
+        playerVars: {
+            'autoplay': 1,
+            'controls': 0, // remove the controls
+            'playsinline': 1,
+            'autohide': 1,
+            'mute': 1,
+            'loop': 1,
+            'showinfo': 0,
+            'modestbranding': 1,
+            'iv_load_policy': 3
+        },
+        events: {
+            'onReady': onPlayerReady
+        }
+    });
+}
+
+
+window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
+
+
+    </script>
+</body>
+</html>
